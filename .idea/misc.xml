@@ -6,6 +6,7 @@
       <list>
         <option value="$PROJECT_DIR$/saga-pattern/payment/pom.xml" />
         <option value="$PROJECT_DIR$/saga-pattern/order/pom.xml" />
+        <option value="$PROJECT_DIR$/saga-pattern/common-dto/pom.xml" />
       </list>
     </option>
   </component>
