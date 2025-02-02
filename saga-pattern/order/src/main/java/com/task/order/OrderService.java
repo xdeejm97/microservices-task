@@ -27,7 +27,7 @@ public class OrderService {
 
     @KafkaListener(topics = "payment-success-topic", groupId = "order")
     public void handlePaymentSuccess(PaymentSuccessEvent event) {
-        orderRepository.findById(event.getUserId()).ifPresent(order -> {
+        orderRepository.findById(event.getOrderId()).ifPresent(order -> {
             order.setStatus(OrderStatus.COMPLETED);
             orderRepository.save(order);
         });
@@ -35,7 +35,7 @@ public class OrderService {
 
     @KafkaListener(topics = "payment-failed-topic", groupId = "order")
     public void handlePaymentFailed(PaymentFailedEvent event) {
-        orderRepository.findById(event.getUserId()).ifPresent(order -> {
+        orderRepository.findById(event.getOrderId()).ifPresent(order -> {
             order.setStatus(OrderStatus.CANCELLED);
             orderRepository.save(order);
         });

@@ -2,9 +2,6 @@ package com.task.order.event;
 
 import lombok.*;
 
-import java.io.Serializable;
-
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data

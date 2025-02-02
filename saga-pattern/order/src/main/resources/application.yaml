@@ -1,7 +1,6 @@
 spring:
   application:
     name: order
-
   kafka:
     bootstrap-servers: localhost:9092 # Kafka server address
     consumer:
@@ -36,5 +35,6 @@ spring:
   sql:
     init:
       platform: h2
+
 server:
   port: 8080

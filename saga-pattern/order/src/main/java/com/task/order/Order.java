@@ -4,8 +4,6 @@ import com.task.order.event.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.io.Serializable;
-
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -16,7 +14,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Getter
 @Setter
 @Builder
-public class Order implements Serializable {
+public class Order {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
