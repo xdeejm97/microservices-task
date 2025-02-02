@@ -1,9 +1,9 @@
-package com.task.payment;
+package com.task.payment.model;
 
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
+import java.io.Serializable;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -13,11 +13,10 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Payment {
+public class PaymentBalance implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Long id;
-    private BigDecimal amount;
-    private PaymentStatus status;
+    private Integer userId;
+    private Integer balance;
+
 }
