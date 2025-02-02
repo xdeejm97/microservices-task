@@ -1,6 +1,24 @@
 spring:
   application:
     name: order
+
+  kafka:
+    bootstrap-servers: localhost:9092 # Kafka server address
+    consumer:
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'
   datasource:
     url: jdbc:h2:file:./data/micro-task;AUTO_SERVER=TRUE
     username: sa

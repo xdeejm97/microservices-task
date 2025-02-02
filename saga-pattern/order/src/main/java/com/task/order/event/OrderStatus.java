@@ -1,4 +1,4 @@
-package com.task.order;
+package com.task.order.event;
 
 public enum OrderStatus {
 

@@ -8,6 +8,7 @@
         <option value="$PROJECT_DIR$/saga-pattern/order/pom.xml" />
         <option value="$PROJECT_DIR$/saga-pattern/common-dto/pom.xml" />
         <option value="$PROJECT_DIR$/saga-pattern/user-service/pom.xml" />
+        <option value="$PROJECT_DIR$/saga-pattern/pom.xml" />
       </list>
     </option>
   </component>

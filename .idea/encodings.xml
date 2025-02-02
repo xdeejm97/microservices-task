@@ -5,5 +5,7 @@
     <file url="file://$PROJECT_DIR$/saga-pattern/order/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/saga-pattern/orders/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/saga-pattern/payment/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saga-pattern/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saga-pattern/src/main/resources" charset="UTF-8" />
   </component>
 </project>

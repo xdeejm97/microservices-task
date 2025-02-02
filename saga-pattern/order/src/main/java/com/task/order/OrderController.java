@@ -11,17 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/order")
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 public class OrderController {
 
-    @Autowired
     private final OrderService orderService;
 
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
-    }
-
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<Order> createOrder(@RequestBody Order order) {
         orderService.createOrder(order);
         return ResponseEntity.ok(order);
