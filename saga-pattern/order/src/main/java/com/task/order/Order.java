@@ -1,9 +1,6 @@
 package com.task.order;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
@@ -19,8 +16,8 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long userId;
-    private String fullName;
-    private String email;
-    private OrderStatus status;
+    private Long id;
+    private Long productId;
+    private String price;
+
 }
