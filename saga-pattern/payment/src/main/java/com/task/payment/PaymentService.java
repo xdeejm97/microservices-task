@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.toList;
-
 @Service
 @RequiredArgsConstructor
 public class PaymentService {
@@ -26,10 +24,10 @@ public class PaymentService {
     @PostConstruct
     public void init() {
         paymentRepository.saveAll(Stream.of(
-                new PaymentBalance(1, 1000),
-                new PaymentBalance(2, 999),
-                new PaymentBalance(3, 1500),
-                new PaymentBalance(4, 1200)
+                        new PaymentBalance(1, 1000),
+                        new PaymentBalance(2, 999),
+                        new PaymentBalance(3, 1500),
+                        new PaymentBalance(4, 1200)
                 ).toList()
         );
     }
@@ -44,7 +42,7 @@ public class PaymentService {
         paymentTransaction.setUserId(orderCreatedEvent.getUserId());
         paymentTransaction.setAmount(orderCreatedEvent.getPrice());
 
-        if(orderCreatedEvent.getPrice() <= userBalance.getBalance()){
+        if (orderCreatedEvent.getPrice() <= userBalance.getBalance()) {
             paymentTransaction.setStatus(PaymentStatus.PAYMENT_COMPLETED);
             paymentTransactionRepository.save(paymentTransaction);
             userBalance.setBalance(userBalance.getBalance() - orderCreatedEvent.getPrice());
@@ -55,7 +53,6 @@ public class PaymentService {
             paymentTransactionRepository.save(paymentTransaction);
             kafkaTemplate.send("payment-failed-topic", new PaymentFailedEvent(orderCreatedEvent.getOrderId(), orderCreatedEvent.getUserId()));
         }
-
 
 
     }
