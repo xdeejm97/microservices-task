@@ -4,6 +4,7 @@
     <option name="moduleMapping">
       <map>
         <entry key="microservices-task" value="microservices-task-saga" />
+        <entry key="orders" value="user-service" />
       </map>
     </option>
   </component>

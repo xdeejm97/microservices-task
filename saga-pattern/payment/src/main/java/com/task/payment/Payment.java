@@ -19,4 +19,5 @@ public class Payment {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private BigDecimal amount;
+    private PaymentStatus status;
 }
