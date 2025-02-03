@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.stream.Stream;
 
@@ -36,6 +37,7 @@ public class PaymentService {
     }
 
     @KafkaListener(topics = "order-topic", groupId = "payment")
+    @Transactional
     public void handleOrderCreated(OrderCreatedEvent orderCreatedEvent) {
         PaymentBalance userBalance = paymentRepository.findById(orderCreatedEvent.getUserId()).orElseThrow(
                 () -> new RuntimeException(String.format("User not found %s", orderCreatedEvent.getUserId()))

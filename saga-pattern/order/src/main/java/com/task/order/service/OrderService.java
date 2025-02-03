@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -27,6 +28,7 @@ public class OrderService {
     }
 
     @KafkaListener(topics = "payment-success-topic", groupId = "order")
+    @Transactional
     public void handlePaymentSuccess(PaymentSuccessEvent event) {
         orderRepository.findById(event.getOrderId()).ifPresent(order -> {
             order.setStatus(OrderStatus.COMPLETED);
@@ -35,6 +37,7 @@ public class OrderService {
     }
 
     @KafkaListener(topics = "payment-failed-topic", groupId = "order")
+    @Transactional
     public void handlePaymentFailed(PaymentFailedEvent event) {
         orderRepository.findById(event.getOrderId()).ifPresent(order -> {
             order.setStatus(OrderStatus.CANCELLED);

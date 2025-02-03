@@ -7,8 +7,8 @@ import lombok.*;
 @Data
 public class OrderCreatedEvent {
 
-    private Integer orderId;
-    private Integer userId;
-    private Integer price;
+  private Integer orderId;
+  private Integer userId;
+  private Integer price;
 
 }
