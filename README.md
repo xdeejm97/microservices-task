@@ -1,1 +1,4 @@
-# This project demonstrates the implementation of a distributed transaction management system using the Saga Choreography pattern and the Outbox Pattern in a microservices architecture. The goal is to ensure data consistency across multiple services while maintaining loose coupling and scalability.
+## This project demonstrates the implementation of a distributed transaction management system in a microservices architecture using:
+- Saga Choreography Pattern
+- Outbox Pattern
+The goal is to ensure data consistency across multiple services while maintaining loose Pcoupling and scalability.
