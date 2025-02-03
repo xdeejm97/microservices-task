@@ -1,6 +1,6 @@
 package com.task.payment.model;
 
-import com.task.payment.PaymentStatus;
+import com.task.payment.enums.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

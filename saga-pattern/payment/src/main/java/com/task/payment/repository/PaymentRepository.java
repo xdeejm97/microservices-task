@@ -1,4 +1,4 @@
-package com.task.payment;
+package com.task.payment.repository;
 
 import com.task.payment.model.PaymentBalance;
 import org.springframework.data.jpa.repository.JpaRepository;

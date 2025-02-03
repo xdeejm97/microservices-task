@@ -1,4 +1,4 @@
-package com.task.payment;
+package com.task.payment.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;

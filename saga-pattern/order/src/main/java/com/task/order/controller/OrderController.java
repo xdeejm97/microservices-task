@@ -1,5 +1,7 @@
-package com.task.order;
+package com.task.order.controller;
 
+import com.task.order.model.Order;
+import com.task.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,4 +1,4 @@
-package com.task.payment;
+package com.task.payment.enums;
 
 public enum PaymentStatus {
     PAYMENT_COMPLETED,

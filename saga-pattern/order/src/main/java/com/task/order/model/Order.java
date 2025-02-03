@@ -1,4 +1,4 @@
-package com.task.order;
+package com.task.order.model;
 
 import com.task.order.event.OrderStatus;
 import jakarta.persistence.*;
