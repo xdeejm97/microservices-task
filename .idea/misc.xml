@@ -9,6 +9,9 @@
         <option value="$PROJECT_DIR$/saga-pattern/common-dto/pom.xml" />
         <option value="$PROJECT_DIR$/saga-pattern/user-service/pom.xml" />
         <option value="$PROJECT_DIR$/saga-pattern/pom.xml" />
+        <option value="$PROJECT_DIR$/saga-outbox-pattern/pom.xml" />
+        <option value="$PROJECT_DIR$/saga-outbox-pattern/order/pom.xml" />
+        <option value="$PROJECT_DIR$/saga-outbox-pattern/order-service/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

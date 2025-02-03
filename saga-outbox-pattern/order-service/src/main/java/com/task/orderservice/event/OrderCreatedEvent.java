@@ -1,0 +1,16 @@
+package com.task.orderservice.event;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class OrderCreatedEvent {
+
+  private Integer orderId;
+  private Integer userId;
+  private Integer price;
+
+}

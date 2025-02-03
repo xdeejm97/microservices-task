@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/saga-outbox-pattern/order-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saga-outbox-pattern/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saga-outbox-pattern/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/saga-pattern/common-dto/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/saga-pattern/order/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/saga-pattern/orders/src/main/java" charset="UTF-8" />
