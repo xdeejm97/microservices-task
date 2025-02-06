@@ -10,6 +10,7 @@ import com.task.payment.model.PaymentTransaction;
 import com.task.payment.repository.PaymentRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
@@ -47,19 +49,24 @@ public class PaymentService {
         paymentTransaction.setUserId(orderCreatedEvent.getUserId());
         paymentTransaction.setAmount(orderCreatedEvent.getPrice());
 
+        sendPaymentMessage(orderCreatedEvent, userBalance, paymentTransaction);
+
+    }
+
+    private void sendPaymentMessage(OrderCreatedEvent orderCreatedEvent, PaymentBalance userBalance, PaymentTransaction paymentTransaction) {
         if (orderCreatedEvent.getPrice() <= userBalance.getBalance()) {
             paymentTransaction.setStatus(PaymentStatus.PAYMENT_COMPLETED);
             paymentTransactionRepository.save(paymentTransaction);
             userBalance.setBalance(userBalance.getBalance() - orderCreatedEvent.getPrice());
             paymentRepository.save(userBalance);
+            log.info("Payment successful for order: {}", orderCreatedEvent);
             kafkaTemplate.send("payment-success-topic", new PaymentSuccessEvent(orderCreatedEvent.getOrderId(), orderCreatedEvent.getUserId()));
         } else {
             paymentTransaction.setStatus(PaymentStatus.PAYMENT_FAILED);
             paymentTransactionRepository.save(paymentTransaction);
+            log.warn("Payment failed for order: {}", orderCreatedEvent);
             kafkaTemplate.send("payment-failed-topic", new PaymentFailedEvent(orderCreatedEvent.getOrderId(), orderCreatedEvent.getUserId()));
         }
-
-
     }
 
 }
