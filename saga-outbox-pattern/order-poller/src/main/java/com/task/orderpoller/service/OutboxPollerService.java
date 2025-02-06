@@ -24,16 +24,13 @@ public class OutboxPollerService {
   public void fetchOutboxMessages() {
 
     List<Outbox> unprocessedData = outboxRepository.findByStatusFalse();
-
-
     unprocessedData.forEach(outbox -> {
       try {
         kafkaTemplate.send("order-topic", outbox.getPayload());
         outbox.setStatus(true);
         outboxRepository.save(outbox);
-
-      } catch (Exception ignored) {
-        log.error(ignored.getMessage());
+      } catch (Exception e) {
+                throw new RuntimeException("Error processing outbox message", e);
       }
     });
 

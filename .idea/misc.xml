@@ -12,6 +12,8 @@
         <option value="$PROJECT_DIR$/saga-outbox-pattern/pom.xml" />
         <option value="$PROJECT_DIR$/saga-outbox-pattern/order/pom.xml" />
         <option value="$PROJECT_DIR$/saga-outbox-pattern/order-service/pom.xml" />
+        <option value="$PROJECT_DIR$/saga-outbox-pattern/order-poller/pom.xml" />
+        <option value="$PROJECT_DIR$/saga-outbox-pattern/payment-service/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

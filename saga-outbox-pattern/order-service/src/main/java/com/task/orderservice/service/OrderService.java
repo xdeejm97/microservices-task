@@ -1,5 +1,6 @@
 package com.task.orderservice.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.task.orderservice.event.OrderCreatedEvent;
 import com.task.orderservice.event.OrderStatus;
@@ -10,7 +11,7 @@ import com.task.orderservice.model.Outbox;
 import com.task.orderservice.repository.OrderRepository;
 import com.task.orderservice.repository.OutboxRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,17 +19,22 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class OrderService {
 
   private final OrderRepository orderRepository;
   private final OutboxRepository outboxRepository;
+  private final ObjectMapper objectMapper;
 
   @Transactional
-  @SneakyThrows
-  public void createOrder(Order order) {
+  public void createOrder(Order order) throws JsonProcessingException {
     order.setStatus(OrderStatus.CREATED);
     orderRepository.save(order);
+    saveToOutbox(order);
+    log.info("Order created: {}", order);
+  }
 
+  private void saveToOutbox(Order order) throws JsonProcessingException {
     OrderCreatedEvent orderCreatedEvent = OrderCreatedEvent.builder()
             .orderId(order.getOrderId())
             .userId(order.getUserId())
@@ -37,29 +43,29 @@ public class OrderService {
 
     Outbox outbox = Outbox.builder()
             .aggregateId(order.getOrderId())
-            .payload(new ObjectMapper().writeValueAsString(orderCreatedEvent))
+            .payload(objectMapper.writeValueAsString(orderCreatedEvent))
             .status(false)
             .build();
-
     outboxRepository.save(outbox);
-
   }
 
-  @KafkaListener(topics = "payment-success-topic", groupId = "order-service")
   @Transactional
+  @KafkaListener(topics = "payment-success-topic", groupId = "order-service")
   public void handlePaymentSuccess(PaymentSuccessEvent event) {
     orderRepository.findById(event.getOrderId()).ifPresent(order -> {
       order.setStatus(OrderStatus.COMPLETED);
       orderRepository.save(order);
+      log.info("Order completed: {}", event);
     });
   }
 
-  @KafkaListener(topics = "payment-failed-topic", groupId = "order-service")
   @Transactional
+  @KafkaListener(topics = "payment-failed-topic", groupId = "order-service")
   public void handlePaymentFailed(PaymentFailedEvent event) {
     orderRepository.findById(event.getOrderId()).ifPresent(order -> {
       order.setStatus(OrderStatus.CANCELLED);
       orderRepository.save(order);
+      log.warn("Payment failed: {}", event);
     });
 
   }

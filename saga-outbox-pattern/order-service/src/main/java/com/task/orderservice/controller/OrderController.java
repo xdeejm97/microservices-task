@@ -1,6 +1,5 @@
 package com.task.orderservice.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.task.orderservice.model.Order;
 import com.task.orderservice.service.OrderService;
 import lombok.RequiredArgsConstructor;

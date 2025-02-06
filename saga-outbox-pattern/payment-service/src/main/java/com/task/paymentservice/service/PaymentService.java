@@ -12,6 +12,7 @@ import com.task.paymentservice.repository.PaymentTransactionRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ public class PaymentService {
   private final PaymentRepository paymentRepository;
   private final PaymentTransactionRepository paymentTransactionRepository;
   private final KafkaTemplate<String, Object> kafkaTemplate;
+  private final ObjectMapper objectMapper;
 
   @PostConstruct
   public void init() {
@@ -42,7 +44,6 @@ public class PaymentService {
   @KafkaListener(topics = "order-topic", groupId = "payment-service")
   @Transactional
   public void handleOrderCreated(String payload) {
-    ObjectMapper objectMapper = new ObjectMapper();
 
     try {
       OrderCreatedEvent orderCreatedEvent = objectMapper.readValue(payload, OrderCreatedEvent.class);
@@ -55,20 +56,26 @@ public class PaymentService {
       paymentTransaction.setUserId(orderCreatedEvent.getUserId());
       paymentTransaction.setAmount(orderCreatedEvent.getPrice());
 
-      if (orderCreatedEvent.getPrice() <= userBalance.getBalance()) {
-        paymentTransaction.setStatus(PaymentStatus.PAYMENT_COMPLETED);
-        paymentTransactionRepository.save(paymentTransaction);
-        userBalance.setBalance(userBalance.getBalance() - orderCreatedEvent.getPrice());
-        paymentRepository.save(userBalance);
-        kafkaTemplate.send("payment-success-topic", new PaymentSuccessEvent(orderCreatedEvent.getOrderId(), orderCreatedEvent.getUserId()));
-      } else {
-        paymentTransaction.setStatus(PaymentStatus.PAYMENT_FAILED);
-        paymentTransactionRepository.save(paymentTransaction);
-        kafkaTemplate.send("payment-failed-topic", new PaymentFailedEvent(orderCreatedEvent.getOrderId(), orderCreatedEvent.getUserId()));
-      }
+      sendPaymentMessage(orderCreatedEvent, userBalance, paymentTransaction);
 
     } catch (Exception e) {
-      log.error(e.getMessage());
+      throw new RuntimeException("Error processing order event", e);
+    }
+  }
+
+  private void sendPaymentMessage(OrderCreatedEvent orderCreatedEvent, PaymentBalance userBalance, PaymentTransaction paymentTransaction) {
+    if (orderCreatedEvent.getPrice() <= userBalance.getBalance()) {
+      paymentTransaction.setStatus(PaymentStatus.PAYMENT_COMPLETED);
+      paymentTransactionRepository.save(paymentTransaction);
+      userBalance.setBalance(userBalance.getBalance() - orderCreatedEvent.getPrice());
+      paymentRepository.save(userBalance);
+      log.info("Payment successful for order: {}", orderCreatedEvent);
+      kafkaTemplate.send("payment-success-topic", new PaymentSuccessEvent(orderCreatedEvent.getOrderId(), orderCreatedEvent.getUserId()));
+    } else {
+      paymentTransaction.setStatus(PaymentStatus.PAYMENT_FAILED);
+      paymentTransactionRepository.save(paymentTransaction);
+      log.warn("Payment failed for order: {}", orderCreatedEvent);
+      kafkaTemplate.send("payment-failed-topic", new PaymentFailedEvent(orderCreatedEvent.getOrderId(), orderCreatedEvent.getUserId()));
     }
   }
 }

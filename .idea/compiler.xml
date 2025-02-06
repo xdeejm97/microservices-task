@@ -8,7 +8,17 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
       </profile>
-      <profile name="Annotation profile for saga-pattern" enabled="true">
+      <profile name="Annotation profile for order-poller" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
+        </processorPath>
+        <module name="order-poller" />
+      </profile>
+      <profile name="Annotation profile for saga-outbox-pattern" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -17,16 +27,17 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
         </processorPath>
         <module name="payment" />
+        <module name="order-service" />
         <module name="order" />
       </profile>
-      <profile name="Annotation profile for order-service" enabled="true">
+      <profile name="Annotation profile for payment-service" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
         </processorPath>
-        <module name="order-service" />
+        <module name="payment-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -41,9 +52,11 @@
       <module name="common-dto" options="-parameters" />
       <module name="order" options="-parameters" />
       <module name="order (1)" options="-parameters" />
+      <module name="order-poller" options="-parameters" />
       <module name="order-service" options="-parameters" />
       <module name="orders" options="-parameters" />
       <module name="payment" options="-parameters" />
+      <module name="payment-service" options="-parameters" />
       <module name="saga-outbox-pattern" options="-parameters" />
       <module name="saga-pattern" options="-parameters" />
       <module name="saga-pattern (1)" options="-parameters" />
