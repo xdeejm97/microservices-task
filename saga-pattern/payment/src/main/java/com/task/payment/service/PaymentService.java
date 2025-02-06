@@ -60,12 +60,12 @@ public class PaymentService {
             userBalance.setBalance(userBalance.getBalance() - orderCreatedEvent.getPrice());
             paymentRepository.save(userBalance);
             log.info("Payment successful for order: {}", orderCreatedEvent);
-            kafkaTemplate.send("payment-success-topic", new PaymentSuccessEvent(orderCreatedEvent.getOrderId(), orderCreatedEvent.getUserId()));
+            kafkaTemplate.send("payment-success-topic", new PaymentSuccessEvent(orderCreatedEvent.getOrderId(), orderCreatedEvent.getUserId(), orderCreatedEvent.getPrice()));
         } else {
             paymentTransaction.setStatus(PaymentStatus.PAYMENT_FAILED);
             paymentTransactionRepository.save(paymentTransaction);
             log.warn("Payment failed for order: {}", orderCreatedEvent);
-            kafkaTemplate.send("payment-failed-topic", new PaymentFailedEvent(orderCreatedEvent.getOrderId(), orderCreatedEvent.getUserId()));
+            kafkaTemplate.send("payment-failed-topic", new PaymentFailedEvent(orderCreatedEvent.getOrderId(), orderCreatedEvent.getUserId(), orderCreatedEvent.getPrice()));
         }
     }
 

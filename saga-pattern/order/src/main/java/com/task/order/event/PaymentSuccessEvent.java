@@ -9,5 +9,6 @@ public class PaymentSuccessEvent {
 
     private Integer orderId;
     private Integer userId;
+    private Integer price;
 
 }

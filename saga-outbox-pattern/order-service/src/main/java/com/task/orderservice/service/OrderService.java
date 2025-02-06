@@ -65,7 +65,7 @@ public class OrderService {
     orderRepository.findById(event.getOrderId()).ifPresent(order -> {
       order.setStatus(OrderStatus.CANCELLED);
       orderRepository.save(order);
-      log.warn("Payment failed: {}", event);
+      log.warn("Order failed: {}", event);
     });
 
   }
