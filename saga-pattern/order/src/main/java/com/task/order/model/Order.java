@@ -11,8 +11,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Table(name = "orders")
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 @Builder
 public class Order {
 
